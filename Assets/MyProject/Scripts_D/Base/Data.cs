@@ -17,8 +17,6 @@ namespace TrasnferVR.Demo {
 
             UI,
             START_SIMULATION,
-            PAUSE_SIMULATION,
-
 
         }
 

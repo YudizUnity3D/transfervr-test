@@ -18,6 +18,7 @@ namespace TrasnferVR.Demo.UI {
 
             UIController.instance.HideThisScreen(ScreenType.PAUSE, EnableDirection.Forward);
             UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
+            Events.ChangeSimulationState(SimulationState.START_SIMULATION);
             SoundManager.instance.PlayTap();
 
         }
@@ -26,6 +27,7 @@ namespace TrasnferVR.Demo.UI {
 
             UIController.instance.HideThisScreen(ScreenType.PAUSE, EnableDirection.Forward);
             UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
+            Events.ChangeSimulationState(SimulationState.START_SIMULATION);
             SoundManager.instance.PlayTap();
 
         }
@@ -34,6 +36,7 @@ namespace TrasnferVR.Demo.UI {
 
             UIController.instance.HideThisScreen(ScreenType.PAUSE, EnableDirection.Forward);
             UIController.instance.ShowThisScreen(ScreenType.START, EnableDirection.Forward);
+            Events.ChangeSimulationState(SimulationState.UI);
             SoundManager.instance.PlayTap();
 
         }
@@ -42,6 +45,7 @@ namespace TrasnferVR.Demo.UI {
             base.OnBackKeyPressed();
             UIController.instance.HideThisScreen(ScreenType.PAUSE, EnableDirection.Forward);
             UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
+            Events.ChangeSimulationState(SimulationState.START_SIMULATION);
             SoundManager.instance.PlayBack();
 
         }
