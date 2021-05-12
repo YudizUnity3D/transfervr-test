@@ -17,6 +17,7 @@ namespace TrasnferVR.Demo
         private Quaternion initialRotation;
         private bool isAttachedAnywhere;
         private GameObject connectedObject;
+        private Transform initialParent;
         #endregion
 
         #region UNITY_CALLBACKS
@@ -24,6 +25,7 @@ namespace TrasnferVR.Demo
         {
             initialPosition = transform.position;
             initialRotation = transform.rotation;
+            initialParent = transform.parent;
         }
         private void OnTriggerEnter(Collider other)
         {
@@ -32,6 +34,14 @@ namespace TrasnferVR.Demo
         private void OnTriggerExit(Collider other)
         {
             connectedObject = null;
+        }
+        private void OnEnable()
+        {
+            Events.OnResetEnvironment+=OnResetEnvrironment;
+        }
+        private void OnDisable()
+        {
+            Events.OnResetEnvironment-=OnResetEnvrironment;
         }
         #endregion
 
@@ -70,6 +80,12 @@ namespace TrasnferVR.Demo
                 transform.rotation = initialRotation;
                 isAttachedAnywhere = false;
             }
+        }
+        void OnResetEnvrironment()
+        {
+            transform.parent = initialParent;
+            transform.position = initialPosition;
+            transform.rotation = initialRotation;
         }
         #endregion
     }

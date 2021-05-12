@@ -327,7 +327,7 @@ namespace TrasnferVR.Demo
         public void OnSimulationStateChanged(Data.SimulationState state)
         {
             Debug.Log("State Changed to " + state);
-            if (state != Data.SimulationState.START_SIMULATION)
+            if (state != Data.SimulationState.SIMULATION)
             {
                 ProcessingUpdate.Instance.Remove(this);
                 ChangeLeftControllerInteraction(ControllerStates.Ray);

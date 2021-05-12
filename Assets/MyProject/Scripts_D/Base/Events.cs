@@ -8,9 +8,14 @@ namespace TrasnferVR.Demo {
     public class Events : MonoBehaviour {
 
         public static event Action<SimulationState> OnSimulationStateChanged = delegate { };
+        public static event Action OnResetEnvironment = delegate { };
 
         public static void ChangeSimulationState(SimulationState simulationState) {
             OnSimulationStateChanged(simulationState);
+        }
+
+        public static void ResetEnvironment() {
+            OnResetEnvironment();
         }
 
     }

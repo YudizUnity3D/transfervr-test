@@ -49,6 +49,21 @@ public class ScreenView : UIBase
     {
         while (true)
         {
+#if !UNITY_EDITOR
+            XRController leftController = ControllerManager.instance.GetLeftController();
+            if (leftController != null && leftController.inputDevice.isValid)
+            {
+                leftController.inputDevice.IsPressed(InputHelpers.Button.MenuButton, out bool value);
+                if (value && isCanvasActive())
+                {
+                    OnBackKeyPressed();
+                }
+                else
+                {
+                    StopCoroutine("CheckForBackKey");
+                }
+            }
+#elif UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (isCanvasActive())
@@ -60,7 +75,7 @@ public class ScreenView : UIBase
                     StopCoroutine("CheckForBackKey");
                 }
             }
-
+#endif
             yield return null;
         }
     }

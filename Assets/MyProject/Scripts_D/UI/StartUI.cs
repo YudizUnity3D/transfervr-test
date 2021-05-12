@@ -18,7 +18,7 @@ namespace TrasnferVR.Demo.UI {
             UIController.instance.HideThisScreen(ScreenType.START, EnableDirection.Forward);
             UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
             SoundManager.instance.PlayTap();
-            Events.ChangeSimulationState(SimulationState.START_SIMULATION);
+            Events.ChangeSimulationState(SimulationState.SIMULATION);
         }
 
         public void OnQuitPressed() {

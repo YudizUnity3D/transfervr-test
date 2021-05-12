@@ -17,6 +17,14 @@ namespace TrasnferVR.Demo
         #endregion
 
         #region PUBLIC_METHODS
+        private void OnEnable()
+        {
+            Events.OnResetEnvironment+=OnResetEnvrironment;
+        }
+        private void OnDisable()
+        {
+            Events.OnResetEnvironment-=OnResetEnvrironment;
+        }
         public void OnGrab()
         {
             initialPosition = transform.position;
@@ -33,6 +41,11 @@ namespace TrasnferVR.Demo
             hose.transform.parent = hoseAttachParent;
             hose.transform.localPosition = Vector3.zero;
             hose.transform.localRotation = Quaternion.identity;
+        }
+        void OnResetEnvrironment()
+        {
+            transform.position = initialPosition;
+            transform.rotation = initialRotation;
         }
         #endregion
     }

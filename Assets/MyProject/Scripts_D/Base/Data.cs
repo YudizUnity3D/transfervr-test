@@ -16,7 +16,7 @@ namespace TrasnferVR.Demo {
         public enum SimulationState {
 
             UI,
-            START_SIMULATION,
+            SIMULATION,
 
         }
 

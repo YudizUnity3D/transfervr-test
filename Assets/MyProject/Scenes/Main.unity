@@ -2754,9 +2754,6 @@ MonoBehaviour:
     state: 2
   - interactor: {fileID: 72595857}
     state: 1
-  currentLeftHandState:
-    interactor: {fileID: 0}
-    state: 0
   leftHandNormalState: 2
   leftSecondaryState: 0
   rightHandNormalState: 2
