@@ -12,31 +12,37 @@ namespace TrasnferVR.Demo
         //Driller Parameters
         public float rotationSpeed;
         public float pushForce;
+        public List<HighlightObjectData> highlightObjectData;
         #endregion
 
         #region PRIVATE_VARS
         [SerializeField] private Transform hoseAttachParent;
         private Vector3 initialPosition;
         private Quaternion initialRotation;
+        private Transform drillerParent;
         private Hose hose;
         private Screw screw;
         private bool isDrilling = false;
         private XRController currentHoldedController;
+        private XRBaseInteractor xRBaseInteractor;
         #endregion
 
         #region UNITY_CALLBACKS
         private void OnEnable()
         {
             Events.OnResetEnvironment += OnResetEnvrironment;
+            Events.OnTaskCompleted += OnTaskCompleted;
         }
         private void OnDisable()
         {
             Events.OnResetEnvironment -= OnResetEnvrironment;
+            Events.OnTaskCompleted -= OnTaskCompleted;
         }
         private void Start()
         {
             initialPosition = transform.position;
             initialRotation = transform.rotation;
+            drillerParent = transform.parent;
         }
         #endregion
 
@@ -58,9 +64,25 @@ namespace TrasnferVR.Demo
                 screw.PushScrew(rotationSpeed, pushForce);
             }
         }
+        public void OnHoverEnter()
+        {
+            foreach (HighlightObjectData data in highlightObjectData)
+            {
+                data.objectRenderer.material = data.highlightedMaterial;
+            }
+        }
+        public void OnHoverExit()
+        {
+            foreach (HighlightObjectData data in highlightObjectData)
+            {
+                data.objectRenderer.material = data.normalMaterial;
+            }
+        }
         public void OnGrab(XRBaseInteractor interactor)
         {
+            xRBaseInteractor = interactor;
             currentHoldedController = interactor.GetComponent<XRController>();
+            OnHoverExit();
             if (hose != null)
             {
                 ProcessingUpdate.Instance.Add(this);
@@ -68,6 +90,7 @@ namespace TrasnferVR.Demo
         }
         public void OnReleased(XRBaseInteractor interactor)
         {
+            xRBaseInteractor = null;
             transform.position = initialPosition;
             transform.rotation = initialRotation;
             ProcessingUpdate.Instance.Remove(this);
@@ -79,6 +102,11 @@ namespace TrasnferVR.Demo
             hose.transform.parent = hoseAttachParent;
             hose.transform.localPosition = Vector3.zero;
             hose.transform.localRotation = Quaternion.identity;
+
+            foreach (HighlightObjectData data in hose.highlightObjectData)
+            {
+                highlightObjectData.Add(data);
+            }
 
             if (currentHoldedController != null)
             {
@@ -98,13 +126,48 @@ namespace TrasnferVR.Demo
         #region PRIVATE_METHODS
         void OnResetEnvrironment()
         {
-            hose = null;
+            if (hose != null)
+            {
+                foreach (HighlightObjectData data in hose.highlightObjectData)
+                {
+                    highlightObjectData.Remove(data);
+                }
+                hose.AnimateHose(false);
+                hose = null;
+            }
+            isDrilling = false;
+            transform.parent = drillerParent;
             transform.position = initialPosition;
             transform.rotation = initialRotation;
             ProcessingUpdate.Instance.Remove(this);
 
             currentHoldedController = null;
-            hose.AnimateHose(false);
+        }
+        void OnTaskCompleted()
+        {
+            if (hose != null)
+            {
+                hose.AnimateHose(false);
+            }
+
+            ControllerManager.instance.FixForceDropGrabLeft();
+            ControllerManager.instance.FixForceDropGrabRight();
+
+            this.Execute(() =>
+            {
+                transform.parent = drillerParent;
+                transform.position = initialPosition;
+                transform.rotation = initialRotation;
+                OnHoverExit();
+                // currentHoldedController = null;
+            }, 0.2f);
+
+            isDrilling = false;
+            transform.parent = drillerParent;
+            transform.position = initialPosition;
+            transform.rotation = initialRotation;
+            ProcessingUpdate.Instance.Remove(this);
+            currentHoldedController = null;
         }
         #endregion
     }

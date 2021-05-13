@@ -8,6 +8,7 @@ namespace TrasnferVR.Demo
     public class Hose : MonoBehaviour, IGrabbable
     {
         #region PUBLIC_VARS
+        public List<HighlightObjectData> highlightObjectData;
         #endregion
 
         #region PRIVATE_VARS
@@ -82,10 +83,25 @@ namespace TrasnferVR.Demo
                 xRGrabInteractable.interactionLayerMask = 0;
             }
         }
+        public void OnHoverEnter()
+        {
+            foreach (HighlightObjectData data in highlightObjectData)
+            {
+                data.objectRenderer.material = data.highlightedMaterial;
+            }
+        }
+        public void OnHoverExit()
+        {
+            foreach (HighlightObjectData data in highlightObjectData)
+            {
+                data.objectRenderer.material = data.normalMaterial;
+            }
+        }
         [ContextMenu("Grab")]
         public void OnGrab(XRBaseInteractor interactor)
         {
             isAttachedAnywhere = false;
+            OnHoverExit();
         }
         [ContextMenu("Release")]
         public void OnReleased(XRBaseInteractor interactor)
@@ -98,6 +114,7 @@ namespace TrasnferVR.Demo
                     attachedDriller = driller;
                     driller.AttachHose(this);
                     ToggleAttachedCollider(true);
+                    ToggleGrabInteraction(false);
                     isAttachedAnywhere = true;
                 }
             }
@@ -114,6 +131,7 @@ namespace TrasnferVR.Demo
             transform.position = initialPosition;
             transform.rotation = initialRotation;
             ToggleAttachedCollider(false);
+            ToggleGrabInteraction(true);
         }
         #endregion
     }

@@ -293,7 +293,7 @@ namespace TrasnferVR.Demo
 
         public XRController GetLeftController()
         {
-            if(currentLeftHandState!=null)
+            if (currentLeftHandState != null)
                 return currentLeftHandState.interactionController.m_XRController;
             return null;
         }
@@ -322,6 +322,56 @@ namespace TrasnferVR.Demo
             ControllerRefs activeState = controllerRightRefs.Find(x => x.state == state);
             activeState.interactionController.Enter();
             currentRightHandState = activeState;
+        }
+        public void FixForceDropGrabLeft()
+        {
+            //Left Controller Reset
+            ControllerRefs grabStateL = controllerLeftRefs.Find(x => x.state == ControllerStates.Grab);
+            ControllerRefs rayStateL = controllerLeftRefs.Find(x => x.state == ControllerStates.Ray);
+            this.Execute(() =>
+            {
+                grabStateL.interactionController.m_XRController.enableInputActions = true;
+                grabStateL.interactionController.m_Interactor.enabled = true;
+                grabStateL.interactionController.m_Interactor.allowSelect = false;
+
+                rayStateL.interactionController.m_XRController.enableInputActions = false;
+                rayStateL.interactionController.m_Interactor.enabled = false;
+            }, 0.1f);
+
+            this.Execute(() =>
+            {
+                grabStateL.interactionController.m_XRController.enableInputActions = false;
+                grabStateL.interactionController.m_Interactor.enabled = false;
+                grabStateL.interactionController.m_Interactor.allowSelect = true;
+
+                rayStateL.interactionController.m_XRController.enableInputActions = true;
+                rayStateL.interactionController.m_Interactor.enabled = true;
+            }, 0.2f);
+        }
+        public void FixForceDropGrabRight()
+        {
+            // Right Controller Reset
+            ControllerRefs grabState = controllerRightRefs.Find(x => x.state == ControllerStates.Grab);
+            ControllerRefs rayState = controllerRightRefs.Find(x => x.state == ControllerStates.Ray);
+            this.Execute(() =>
+            {
+                grabState.interactionController.m_XRController.enableInputActions = true;
+                grabState.interactionController.m_Interactor.enabled = true;
+                grabState.interactionController.m_Interactor.allowSelect = false;
+
+                rayState.interactionController.m_XRController.enableInputActions = false;
+                rayState.interactionController.m_Interactor.enabled = false;
+            }, 0.1f);
+
+            this.Execute(() =>
+            {
+                grabState.interactionController.m_XRController.enableInputActions = false;
+                grabState.interactionController.m_Interactor.enabled = false;
+                grabState.interactionController.m_Interactor.allowSelect = true;
+
+                rayState.interactionController.m_XRController.enableInputActions = true;
+                rayState.interactionController.m_Interactor.enabled = true;
+            }, 0.2f);
         }
 
         public void OnSimulationStateChanged(Data.SimulationState state)
