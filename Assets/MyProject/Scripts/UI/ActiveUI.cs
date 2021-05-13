@@ -30,20 +30,5 @@ namespace TrasnferVR.Demo.UI
 
         }
 
-//         public void Tick()
-//         {
-// #if !UNITY_EDITOR
-//             XRController leftController = ControllerManager.instance.GetLeftController();
-//             if (leftController != null && leftController.inputDevice.isValid)
-//             {
-//                 leftController.inputDevice.IsPressed(InputHelpers.Button.MenuButton, out bool value);
-//                 if (value)
-//                 {
-//                     OnBackKeyPressed();
-//                 }
-//             }
-// #endif
-//         }
-
     }
 }

@@ -16,10 +16,10 @@ namespace TrasnferVR.Demo.UI {
 
         public void OnStartPressed() {
             UIController.instance.HideThisScreen(ScreenType.START, EnableDirection.Forward);
-            UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
+            UIController.instance.ShowThisScreen(ScreenType.INSTRUCTIONS, EnableDirection.Forward);
             SoundManager.instance.PlayTap();
-            Events.ChangeSimulationState(SimulationState.SIMULATION);
         }
+
 
         public void OnQuitPressed() {
             Application.Quit();

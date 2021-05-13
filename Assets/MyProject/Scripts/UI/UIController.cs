@@ -12,9 +12,8 @@ namespace TrasnferVR.Demo.UI {
         [SerializeField] List<ScreenCollection> _allScreens = null;
 
         [Header("Current")]
-        [SerializeField] ScreenType _currentScreen;
-        [SerializeField] ScreenType _previousScreen;
-
+        public ScreenType _currentScreen;
+        public ScreenType _previousScreen;
 
 
         private void Awake() {

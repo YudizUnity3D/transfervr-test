@@ -8,6 +8,7 @@ namespace TrasnferVR.Demo {
         public enum ScreenType {
 
             START,
+            INSTRUCTIONS,
             ACTIVE,
             PAUSE,
             END
