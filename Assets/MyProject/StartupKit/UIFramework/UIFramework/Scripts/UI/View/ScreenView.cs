@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using TrasnferVR.Demo;
 
 public class ScreenView : UIBase
 {
@@ -54,7 +56,9 @@ public class ScreenView : UIBase
             if (leftController != null && leftController.inputDevice.isValid)
             {
                 leftController.inputDevice.IsPressed(InputHelpers.Button.MenuButton, out bool value);
-                if (value && isCanvasActive())
+                if (value)
+                {
+                if(isCanvasActive())
                 {
                     OnBackKeyPressed();
                 }
@@ -62,6 +66,7 @@ public class ScreenView : UIBase
                 {
                     StopCoroutine("CheckForBackKey");
                 }
+                } 
             }
 #elif UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.Escape))

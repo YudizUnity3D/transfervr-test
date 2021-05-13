@@ -8,6 +8,7 @@ namespace TrasnferVR.Demo.UI {
 
         public override void OnScreenShowCalled() {
             SoundManager.instance.PlayAudio(AudioType.WIN);
+            Events.ResetEnvironment();
             base.OnScreenShowCalled();
         }
 
@@ -18,8 +19,8 @@ namespace TrasnferVR.Demo.UI {
         public void onRestartPressed() {
             UIController.instance.HideThisScreen(ScreenType.END, EnableDirection.Forward);
             UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
-            Events.ChangeSimulationState(SimulationState.SIMULATION);
             Events.ResetEnvironment();
+            Events.ChangeSimulationState(SimulationState.SIMULATION);
             SoundManager.instance.PlayTap();
 
         }

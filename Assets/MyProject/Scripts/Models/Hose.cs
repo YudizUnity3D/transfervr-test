@@ -11,8 +11,12 @@ namespace TrasnferVR.Demo
         #endregion
 
         #region PRIVATE_VARS
+        [SerializeField] private Animator hoseAnimator;
         [SerializeField] private XRGrabInteractable xRGrabInteractable;
         [SerializeField] private LayerMask grabLayerMask;
+        [SerializeField] private Collider grabCollider;
+        [SerializeField] private Collider drillingCollider;
+        private Driller attachedDriller;
         private Vector3 initialPosition;
         private Quaternion initialRotation;
         private bool isAttachedAnywhere;
@@ -26,26 +30,47 @@ namespace TrasnferVR.Demo
             initialPosition = transform.position;
             initialRotation = transform.rotation;
             initialParent = transform.parent;
+            ToggleAttachedCollider(false);
         }
         private void OnTriggerEnter(Collider other)
         {
             connectedObject = other.gameObject;
+            if (attachedDriller != null)
+            {
+                Screw screw = connectedObject.GetComponent<Screw>();
+                attachedDriller.ScrewConnected(screw);
+            }
         }
         private void OnTriggerExit(Collider other)
         {
+            if (attachedDriller != null)
+            {
+                Screw screw = other.GetComponent<Screw>();
+                attachedDriller.ScrewDisconnect();
+            }
             connectedObject = null;
         }
         private void OnEnable()
         {
-            Events.OnResetEnvironment+=OnResetEnvrironment;
+            Events.OnResetEnvironment += OnResetEnvrironment;
         }
         private void OnDisable()
         {
-            Events.OnResetEnvironment-=OnResetEnvrironment;
+            Events.OnResetEnvironment -= OnResetEnvrironment;
         }
         #endregion
 
         #region PUBLIC_METHODS
+        public void AnimateHose(bool isRotating)
+        {
+            string triggerType = isRotating ? Constants.startAnimation : Constants.stopAnimation;
+            hoseAnimator.SetTrigger(triggerType);
+        }
+        public void ToggleAttachedCollider(bool isHoseAttached)
+        {
+            drillingCollider.enabled = isHoseAttached;
+            grabCollider.enabled = !isHoseAttached;
+        }
         public void ToggleGrabInteraction(bool interact)
         {
             if (interact)
@@ -58,19 +83,21 @@ namespace TrasnferVR.Demo
             }
         }
         [ContextMenu("Grab")]
-        public void OnGrab()
+        public void OnGrab(XRBaseInteractor interactor)
         {
             isAttachedAnywhere = false;
         }
         [ContextMenu("Release")]
-        public void OnReleased()
+        public void OnReleased(XRBaseInteractor interactor)
         {
             if (connectedObject != null)
             {
                 Driller driller = connectedObject.GetComponentInParent<Driller>();
                 if (driller != null)
                 {
+                    attachedDriller = driller;
                     driller.AttachHose(this);
+                    ToggleAttachedCollider(true);
                     isAttachedAnywhere = true;
                 }
             }
@@ -86,6 +113,7 @@ namespace TrasnferVR.Demo
             transform.parent = initialParent;
             transform.position = initialPosition;
             transform.rotation = initialRotation;
+            ToggleAttachedCollider(false);
         }
         #endregion
     }

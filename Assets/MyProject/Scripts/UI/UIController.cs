@@ -19,6 +19,12 @@ namespace TrasnferVR.Demo.UI {
         private void Awake() {
             instance = this;
         }
+        private void OnEnable() {
+            Events.OnTaskCompleted += OnTaskCompleted;
+        }
+        private void OnDisable() {
+            Events.OnTaskCompleted -= OnTaskCompleted;
+        }
 
         private void Start() {
             ShowThisScreen(ScreenType.START, EnableDirection.Forward);
@@ -50,6 +56,13 @@ namespace TrasnferVR.Demo.UI {
 
         public bool isScreenActive(ScreenType m_type) {
             return _allScreens.Find(x => (x._type == m_type))._screen.isCanvasActive();
+        }
+
+        void OnTaskCompleted()
+        {
+            UIController.instance.HideThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
+            UIController.instance.ShowThisScreen(ScreenType.END, EnableDirection.Forward);
+            Events.ChangeSimulationState(SimulationState.UI);
         }
     }
 

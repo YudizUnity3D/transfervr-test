@@ -79,7 +79,7 @@ namespace TrasnferVR.Demo
                     m_XRController = m_GO.GetComponent<XRController>();
                     m_LineRenderer = m_GO.GetComponent<XRInteractorLineVisual>();
                     m_Interactor = m_GO.GetComponent<XRBaseInteractor>();
-                    Debug.Log("xr controller " + (m_XRController!=null) + " for " + m_GO.name);
+                    // Debug.Log("xr controller " + (m_XRController!=null) + " for " + m_GO.name);
                     Leave();
                 }
             }

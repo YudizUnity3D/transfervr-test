@@ -9,6 +9,7 @@ namespace TrasnferVR.Demo {
 
         public static event Action<SimulationState> OnSimulationStateChanged = delegate { };
         public static event Action OnResetEnvironment = delegate { };
+        public static event Action OnTaskCompleted = delegate { };
 
         public static void ChangeSimulationState(SimulationState simulationState) {
             OnSimulationStateChanged(simulationState);
@@ -16,6 +17,10 @@ namespace TrasnferVR.Demo {
 
         public static void ResetEnvironment() {
             OnResetEnvironment();
+        }
+
+        public static void TaskCompleted() {
+            OnTaskCompleted();
         }
 
     }

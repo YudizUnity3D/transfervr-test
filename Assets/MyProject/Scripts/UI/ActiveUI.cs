@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static TrasnferVR.Demo.Data;
-using UnityEngine.XR.Interaction.Toolkit;
 
 namespace TrasnferVR.Demo.UI
 {
@@ -27,8 +26,6 @@ namespace TrasnferVR.Demo.UI
             UIController.instance.ShowThisScreen(ScreenType.PAUSE, EnableDirection.Forward);
             SoundManager.instance.PlayBack();
             Events.ChangeSimulationState(SimulationState.UI);
-
         }
-
     }
 }
