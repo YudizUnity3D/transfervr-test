@@ -8,6 +8,8 @@ namespace TrasnferVR.Demo.UI {
 
         public override void OnScreenShowCalled() {
             base.OnScreenShowCalled();
+
+            //AmbienceController.instance.SwitchAmbience(AmbienceController.Ambience.UI);
         }
 
         public override void OnScreenHideCalled() {

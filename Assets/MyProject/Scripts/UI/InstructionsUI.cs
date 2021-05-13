@@ -23,6 +23,8 @@ namespace TrasnferVR.Demo.UI {
             UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
             SoundManager.instance.PlayTap();
             Events.ChangeSimulationState(SimulationState.SIMULATION);
+            //AmbienceController.instance.SwitchAmbience(AmbienceController.Ambience.UI);
+
         }
 
         public void onBackPressed() {
