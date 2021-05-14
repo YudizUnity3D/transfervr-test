@@ -357,7 +357,8 @@ namespace TrasnferVR.Demo
             {
                 grabState.interactionController.m_XRController.enableInputActions = true;
                 grabState.interactionController.m_Interactor.enabled = true;
-                grabState.interactionController.m_Interactor.allowSelect = false;
+                // grabState.interactionController.m_Interactor.allowSelect = false;
+                // grabState.interactionController.m_Interactor.enableInteractions = false;
 
                 rayState.interactionController.m_XRController.enableInputActions = false;
                 rayState.interactionController.m_Interactor.enabled = false;
@@ -367,7 +368,8 @@ namespace TrasnferVR.Demo
             {
                 grabState.interactionController.m_XRController.enableInputActions = false;
                 grabState.interactionController.m_Interactor.enabled = false;
-                grabState.interactionController.m_Interactor.allowSelect = true;
+                // grabState.interactionController.m_Interactor.allowSelect = true;
+                // grabState.interactionController.m_Interactor.enableInteractions = true;
 
                 rayState.interactionController.m_XRController.enableInputActions = true;
                 rayState.interactionController.m_Interactor.enabled = true;

@@ -13,10 +13,13 @@ namespace TrasnferVR.Demo
         public float rotationSpeed;
         public float pushForce;
         public List<HighlightObjectData> highlightObjectData;
+
         #endregion
 
         #region PRIVATE_VARS
+        [SerializeField] private XRGrabInteractable grabInteractable;
         [SerializeField] private Transform hoseAttachParent;
+        [SerializeField] private AudioSource audioSource;
         private Vector3 initialPosition;
         private Quaternion initialRotation;
         private Transform drillerParent;
@@ -25,6 +28,7 @@ namespace TrasnferVR.Demo
         private bool isDrilling = false;
         private XRController currentHoldedController;
         private XRBaseInteractor xRBaseInteractor;
+        private LayerMask interactionLayerMask;
         #endregion
 
         #region UNITY_CALLBACKS
@@ -40,6 +44,7 @@ namespace TrasnferVR.Demo
         }
         private void Start()
         {
+            interactionLayerMask = grabInteractable.interactionLayerMask;
             initialPosition = transform.position;
             initialRotation = transform.rotation;
             drillerParent = transform.parent;
@@ -55,6 +60,10 @@ namespace TrasnferVR.Demo
                 if (isDrilling != value)
                 {
                     hose.AnimateHose(value);
+                    if(value)
+                        PlayAudio(AudioType.DRILL,true);
+                    else
+                        StopAudio();
                 }
                 isDrilling = value;
             }
@@ -64,6 +73,14 @@ namespace TrasnferVR.Demo
                 screw.PushScrew(rotationSpeed, pushForce);
             }
         }
+        // public void OnHoverEnter(XRBaseInteractor interactor)
+        // {
+        //     Debug.Log("Enter hover " + interactor.gameObject.name);
+        // }
+        // public void OnHoverExit(XRBaseInteractor interactor)
+        // {
+        //     Debug.Log("Exit hover " + interactor.gameObject.name);
+        // }
         public void OnHoverEnter()
         {
             foreach (HighlightObjectData data in highlightObjectData)
@@ -80,9 +97,12 @@ namespace TrasnferVR.Demo
         }
         public void OnGrab(XRBaseInteractor interactor)
         {
+            Debug.Log("OnGrab  " + interactor.gameObject.name);
             xRBaseInteractor = interactor;
             currentHoldedController = interactor.GetComponent<XRController>();
-            OnHoverExit();
+            initialPosition = transform.position;
+            initialRotation = transform.rotation;
+            // OnHoverExit();
             if (hose != null)
             {
                 ProcessingUpdate.Instance.Add(this);
@@ -90,6 +110,8 @@ namespace TrasnferVR.Demo
         }
         public void OnReleased(XRBaseInteractor interactor)
         {
+            Debug.Log("OnRelease  " + interactor.gameObject.name);
+            // grabInteractable.ForceHoverExit(interactor);
             xRBaseInteractor = null;
             transform.position = initialPosition;
             transform.rotation = initialRotation;
@@ -113,6 +135,7 @@ namespace TrasnferVR.Demo
                 ProcessingUpdate.Instance.Add(this);
             }
 
+            PlayAudio(AudioType.METALATTACH,false);
             Events.HoseAttached();
         }
         public void ScrewConnected(Screw screw)
@@ -126,6 +149,17 @@ namespace TrasnferVR.Demo
         #endregion
 
         #region PRIVATE_METHODS
+        void PlayAudio(AudioType type, bool isLooping)
+        {
+            AudioClip clip = SoundManager.instance.GetAudioClip(type);
+            audioSource.loop = isLooping;
+            audioSource.clip = clip;
+            audioSource.Play();
+        }
+        void StopAudio()
+        {
+            audioSource.Stop();
+        }
         void OnResetEnvrironment()
         {
             if (hose != null)
@@ -135,8 +169,10 @@ namespace TrasnferVR.Demo
                     highlightObjectData.Remove(data);
                 }
                 hose.AnimateHose(false);
+                StopAudio();
                 hose = null;
             }
+            grabInteractable.interactionLayerMask = interactionLayerMask;
             isDrilling = false;
             transform.parent = drillerParent;
             transform.position = initialPosition;
@@ -150,19 +186,23 @@ namespace TrasnferVR.Demo
             if (hose != null)
             {
                 hose.AnimateHose(false);
+                StopAudio();
             }
 
             ControllerManager.instance.FixForceDropGrabLeft();
             ControllerManager.instance.FixForceDropGrabRight();
+            // grabInteractable.CustomForceDrop(xRBaseInteractor);
+            grabInteractable.interactionLayerMask = 0;
 
             this.Execute(() =>
             {
                 transform.parent = drillerParent;
                 transform.position = initialPosition;
                 transform.rotation = initialRotation;
+                // grabInteractable.interactionLayerMask = interactionLayerMask;
                 OnHoverExit();
                 // currentHoldedController = null;
-            }, 0.2f);
+            }, 0.3f);
 
             isDrilling = false;
             transform.parent = drillerParent;

@@ -3143,7 +3143,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
   m_OnSelectExit:
     m_PersistentCalls:
       m_Calls:
@@ -3158,7 +3158,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
+        m_CallState: 0
   m_SelectActionTrigger: 1
   m_HideControllerOnSelect: 0
   m_PlayAudioClipOnSelectEnter: 0
@@ -4320,6 +4320,10 @@ MonoBehaviour:
     _Audio: {fileID: 8300000, guid: 04107f052987543cf91402d8cf28bc32, type: 3}
   - _AudioType: 2
     _Audio: {fileID: 8300000, guid: c11c44beb3a444af5b67adb1eb10c08a, type: 3}
+  - _AudioType: 4
+    _Audio: {fileID: 8300000, guid: c11c44beb3a444af5b67adb1eb10c08a, type: 3}
+  - _AudioType: 5
+    _Audio: {fileID: 8300000, guid: c93f967456fb18242b9816eef70586b5, type: 3}
 --- !u!1 &1322506679
 GameObject:
   m_ObjectHideFlags: 0
@@ -5162,6 +5166,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 0}
   _raycaster: {fileID: 0}
+  Instruction_CG: {fileID: 0}
+  Instruction_Text: {fileID: 0}
+  Instruction_DrillPick: Pick the drill with one controller and pneumatic hose with
+    another and attach the hose to the drill.
+  Instruction_Drilling: Screw the board placed on the table using the drill.
+  currentInstuction: 0
+  isResetClicked: 0
+  isHoseAttached: 0
 --- !u!114 &1438770058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5630,7 +5642,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 246348136}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 1651664284}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -6869,6 +6882,7 @@ GameObject:
   - component: {fileID: 2049849415}
   - component: {fileID: 2049849414}
   - component: {fileID: 2049849413}
+  - component: {fileID: 2049849416}
   m_Layer: 0
   m_Name: Driller
   m_TagString: Untagged
@@ -6905,7 +6919,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 246348136}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 628325966810376270}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -7048,7 +7063,110 @@ MonoBehaviour:
   - objectRenderer: {fileID: 4632902443906780311}
     highlightedMaterial: {fileID: 2100000, guid: 6f0ebe76f7b55f94492a6bca7310dc14, type: 2}
     normalMaterial: {fileID: 2100000, guid: 02128bc7049614e4fa549602bf1e2d13, type: 2}
+  audioclips:
+  - _AudioType: 4
+    _Audio: {fileID: 8300000, guid: c93f967456fb18242b9816eef70586b5, type: 3}
+  - _AudioType: 3
+    _Audio: {fileID: 8300000, guid: 3164ca411f4a19940ada70b5cf67b5e6, type: 3}
+  grabInteractable: {fileID: 2049849413}
   hoseAttachParent: {fileID: 1793618130}
+  audioSource: {fileID: 2049849416}
+--- !u!82 &2049849416
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049849411}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2061222399
 GameObject:
   m_ObjectHideFlags: 0
@@ -7328,34 +7446,10 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelectEnter:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2121016850}
-        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_OnSelectExit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2121016850}
-        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   m_SelectActionTrigger: 1
   m_HideControllerOnSelect: 0
   m_PlayAudioClipOnSelectEnter: 0

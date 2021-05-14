@@ -13,7 +13,9 @@ public enum AudioType {
     TAP,
     WIN,
     BACK,
-    INSTRUCTION_CHANGE
+    INSTRUCTION_CHANGE,
+    DRILL,
+    METALATTACH
 
 }
 
@@ -38,6 +40,10 @@ public class SoundManager : Singleton<SoundManager> {
 
     public void PlayAudio(AudioType audioType) {
         _AudioSource.PlayOneShot(AudioDictionary[audioType]);
+    }
+    public AudioClip GetAudioClip(AudioType audioType)
+    {
+        return AudioDictionary[audioType];
     }
 
     public void PlayTap() {

@@ -23,6 +23,7 @@ namespace TrasnferVR.Demo
         private bool isAttachedAnywhere;
         private GameObject connectedObject;
         private Transform initialParent;
+        private bool isHoseRotating = false;
         #endregion
 
         #region UNITY_CALLBACKS
@@ -64,8 +65,12 @@ namespace TrasnferVR.Demo
         #region PUBLIC_METHODS
         public void AnimateHose(bool isRotating)
         {
+            if (isHoseRotating == isRotating)
+                return;
             string triggerType = isRotating ? Constants.startAnimation : Constants.stopAnimation;
+            isHoseRotating = isRotating;
             hoseAnimator.SetTrigger(triggerType);
+
         }
         public void ToggleAttachedCollider(bool isHoseAttached)
         {
@@ -101,7 +106,7 @@ namespace TrasnferVR.Demo
         public void OnGrab(XRBaseInteractor interactor)
         {
             isAttachedAnywhere = false;
-            OnHoverExit();
+            // OnHoverExit();
         }
         [ContextMenu("Release")]
         public void OnReleased(XRBaseInteractor interactor)
@@ -113,8 +118,11 @@ namespace TrasnferVR.Demo
                 {
                     attachedDriller = driller;
                     driller.AttachHose(this);
-                    ToggleAttachedCollider(true);
-                    ToggleGrabInteraction(false);
+                    this.Execute(() =>
+                    {
+                        ToggleAttachedCollider(true);
+                        ToggleGrabInteraction(false);
+                    }, 0.1f);
                     isAttachedAnywhere = true;
                 }
             }
@@ -130,8 +138,13 @@ namespace TrasnferVR.Demo
             transform.parent = initialParent;
             transform.position = initialPosition;
             transform.rotation = initialRotation;
-            ToggleAttachedCollider(false);
-            ToggleGrabInteraction(true);
+            OnHoverExit();
+
+            this.Execute(() =>
+                    {
+                        ToggleAttachedCollider(false);
+                        ToggleGrabInteraction(true);
+                    }, 0.1f);
         }
         #endregion
     }

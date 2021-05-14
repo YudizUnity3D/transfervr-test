@@ -49,6 +49,7 @@ public class ScreenView : UIBase
 
     IEnumerator CheckForBackKey()
     {
+        bool isMenuPressed = false;
         while (true)
         {
 #if !UNITY_EDITOR
@@ -56,11 +57,12 @@ public class ScreenView : UIBase
             if (leftController != null && leftController.inputDevice.isValid)
             {
                 leftController.inputDevice.IsPressed(InputHelpers.Button.MenuButton, out bool value);
-                if (value)
+                if (value && !isMenuPressed)
                 {
                 if(isCanvasActive())
                 {
                     OnBackKeyPressed();
+                    isMenuPressed = true;
                 }
                 else
                 {
