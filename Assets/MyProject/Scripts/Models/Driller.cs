@@ -112,6 +112,8 @@ namespace TrasnferVR.Demo
             {
                 ProcessingUpdate.Instance.Add(this);
             }
+
+            Events.HoseAttached();
         }
         public void ScrewConnected(Screw screw)
         {
