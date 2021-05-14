@@ -10,12 +10,15 @@ namespace TrasnferVR.Demo.UI
 
         public override void OnScreenShowCalled()
         {
+            AmbienceController.instance.PauseAmbience();
             base.OnScreenShowCalled();
         }
 
         public override void OnScreenHideCalled()
         {
             base.OnScreenHideCalled();
+            AmbienceController.instance.ResumeAmbience();
+
         }
 
         public void onRestartPressed()

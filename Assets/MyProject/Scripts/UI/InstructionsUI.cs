@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,14 +8,18 @@ using static TrasnferVR.Demo.Data;
 namespace TrasnferVR.Demo.UI {
     public class InstructionsUI : ScreenView {
 
+        
+
 
         public override void OnScreenShowCalled() {
             base.OnScreenShowCalled();
-
+          
         }
 
         public override void OnScreenHideCalled() {
+
             base.OnScreenHideCalled();
+       
 
         }
 
@@ -23,7 +28,6 @@ namespace TrasnferVR.Demo.UI {
             UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
             SoundManager.instance.PlayTap();
             Events.ChangeSimulationState(SimulationState.SIMULATION);
-            //AmbienceController.instance.SwitchAmbience(AmbienceController.Ambience.UI);
 
         }
 
@@ -32,6 +36,8 @@ namespace TrasnferVR.Demo.UI {
             UIController.instance.ShowThisScreen(ScreenType.START, EnableDirection.Forward);
             SoundManager.instance.PlayTap();
         }
+
+      
 
 
     }

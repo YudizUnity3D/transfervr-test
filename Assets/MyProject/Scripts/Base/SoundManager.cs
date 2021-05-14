@@ -12,7 +12,8 @@ public class Audioclip {
 public enum AudioType {
     TAP,
     WIN,
-    BACK
+    BACK,
+    INSTRUCTION_CHANGE
 
 }
 

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+
 
 namespace TrasnferVR.Demo {
     public class AmbienceController : Singleton<AmbienceController> {
@@ -20,66 +22,44 @@ namespace TrasnferVR.Demo {
             Simulation
         }
 
-        private void OnEnable() {
-
-            Events.OnSimulationStateChanged += OnSimulationStateChanged;
-        }
-
-        private void OnDisable() {
-            Events.OnSimulationStateChanged -= OnSimulationStateChanged;
-
-        }
-
-        private void OnSimulationStateChanged(Data.SimulationState obj) {
-            throw new NotImplementedException();
-        }
 
         public void SwitchAmbience(Ambience _ambience) {
-            StartCoroutine(SetAmbienceRoutine(_ambience));
+            if (currentAmbience != _ambience) {
+                currentAmbience = _ambience;
+                StartCoroutine(SetAmbienceRoutine());
+            }
         }
 
-        IEnumerator SetAmbienceRoutine(Ambience ambience) {
-
-            float timeElapsed = 0;
-            float lerpDuration = 0.5f;
-
-            float startVolume = _AudioSource.volume;
-            float endVolume = 0;
-
-            if (currentAmbience != ambience) {
+        IEnumerator SetAmbienceRoutine() {
 
 
-                while (timeElapsed < lerpDuration) {
-                    _AudioSource.volume = Mathf.Lerp(startVolume, endVolume, timeElapsed / lerpDuration);
-                    timeElapsed += Time.deltaTime;
-                }
+            if (_AudioSource.volume > 0f) {
+
+                yield return _AudioSource.DOFade(0, 1f);
+
             }
 
-            yield return null;
-
-
-            if (ambience == Ambience.UI) {
+            if (currentAmbience == Ambience.UI) {
                 _AudioSource.clip = UIMusic;
             } else {
                 _AudioSource.clip = SimulationAudio;
             }
+            _AudioSource.Play();
+            yield return _AudioSource.DOFade(1, 1f);
 
 
-            timeElapsed = 0;
-            lerpDuration = 0.5f;
+        }
 
-            startVolume = _AudioSource.volume;
-            endVolume = 1;
+        public void PauseAmbience() {
+            _AudioSource.DOFade(0, 1f).onComplete = () => {
 
-            if (currentAmbience != ambience) {
+            };
+        }
 
+        public void ResumeAmbience() {
+            _AudioSource.DOFade(1, 1f).onComplete = () => {
 
-                while (timeElapsed < lerpDuration) {
-                    _AudioSource.volume = Mathf.Lerp(startVolume, endVolume, timeElapsed / lerpDuration);
-                    timeElapsed += Time.deltaTime;
-                }
-            }
-
+            };
         }
 
     }

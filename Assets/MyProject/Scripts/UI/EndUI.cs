@@ -12,6 +12,7 @@ namespace TrasnferVR.Demo.UI
         {
             SoundManager.instance.PlayAudio(AudioType.WIN);
             base.OnScreenShowCalled();
+            AmbienceController.instance.SwitchAmbience(AmbienceController.Ambience.UI);
         }
 
         public override void OnScreenHideCalled()
