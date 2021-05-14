@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using System;
-using UnityEngine.UI;
-// using SimpleJSON;
-// using BestHTTP.SocketIO;
-using System.Text;
-using System.Text.RegularExpressions;
 
-
+/// <summary>
+/// This scripts adds extensions helpfull in development
+/// </summary>
 public static class Helper
 {
+    /// <summary>
+    /// Call this when delayed operation should be performed
+    /// </summary>
     public static Coroutine Execute(this MonoBehaviour monoBehaviour, Action action, float time)
     {
         return monoBehaviour.StartCoroutine(DelayedAction(action, time));

@@ -7,6 +7,9 @@ using CommanTickManager;
 
 namespace TrasnferVR.Demo
 {
+    /// <summary>
+    /// This script manages interactions and switching controllers for use
+    /// </summary>
     [DefaultExecutionOrder(kControllerManagerUpdateOrder)]
     public class ControllerManager : MonoBehaviour, ITick
     {
@@ -192,6 +195,9 @@ namespace TrasnferVR.Demo
             Events.OnSimulationStateChanged -= OnSimulationStateChanged;
         }
 
+        /// <summary>
+        /// This will register new devices attached in runtime 
+        /// </summary>
         void RegisterDevices(InputDevice connectedDevice)
         {
             if (connectedDevice.isValid)
@@ -217,6 +223,9 @@ namespace TrasnferVR.Demo
             }
         }
 
+        /// <summary>
+        /// Manages input detection and switching between interactions 
+        /// </summary>
         public void Tick()
         {
 #if !UNITY_EDITOR
@@ -291,12 +300,18 @@ namespace TrasnferVR.Demo
 #endif
         }
 
+        /// <summary>
+        /// Returns left controller to get inputs in other scripts 
+        /// </summary>
         public XRController GetLeftController()
         {
             if (currentLeftHandState != null)
                 return currentLeftHandState.interactionController.m_XRController;
             return null;
         }
+        /// <summary>
+        /// Switches interactions for left controller 
+        /// </summary>
         public void ChangeLeftControllerInteraction(ControllerStates state)
         {
             if (currentLeftHandState != null)
@@ -310,6 +325,9 @@ namespace TrasnferVR.Demo
             activeState.interactionController.Enter();
             currentLeftHandState = activeState;
         }
+        /// <summary>
+        /// Switches interactions for right controller 
+        /// </summary>
         public void ChangeRightControllerInteraction(ControllerStates state)
         {
             if (currentRightHandState != null)
@@ -323,6 +341,10 @@ namespace TrasnferVR.Demo
             activeState.interactionController.Enter();
             currentRightHandState = activeState;
         }
+
+        /// <summary>
+        /// Custom fix for force dropping grabbed item on left hand 
+        /// </summary>
         public void FixForceDropGrabLeft()
         {
             //Left Controller Reset
@@ -348,6 +370,9 @@ namespace TrasnferVR.Demo
                 rayStateL.interactionController.m_Interactor.enabled = true;
             }, 0.2f);
         }
+        /// <summary>
+        /// Custom fix for force dropping grabbed item on right hand 
+        /// </summary>
         public void FixForceDropGrabRight()
         {
             // Right Controller Reset
@@ -376,6 +401,9 @@ namespace TrasnferVR.Demo
             }, 0.2f);
         }
 
+        /// <summary>
+        /// This manages controller interaction changes based on simulation state 
+        /// </summary>
         public void OnSimulationStateChanged(Data.SimulationState state)
         {
             Debug.Log("State Changed to " + state);

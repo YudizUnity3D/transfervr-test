@@ -164,7 +164,8 @@ namespace TrasnferVR.Demo
         /// </summary>
         public void ScrewDisconnect()
         {
-            screw.PlayParticle(false);
+            if (screw != null)
+                screw.PlayParticle(false);
             screw = null;
         }
         #endregion

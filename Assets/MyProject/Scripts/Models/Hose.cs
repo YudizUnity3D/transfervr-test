@@ -43,7 +43,8 @@ namespace TrasnferVR.Demo
             if (attachedDriller != null)
             {
                 Screw screw = connectedObject.GetComponent<Screw>();
-                attachedDriller.ScrewConnected(screw);
+                if (screw != null)
+                    attachedDriller.ScrewConnected(screw);
             }
         }
         private void OnTriggerExit(Collider other)
@@ -51,7 +52,8 @@ namespace TrasnferVR.Demo
             if (attachedDriller != null)
             {
                 Screw screw = other.GetComponent<Screw>();
-                attachedDriller.ScrewDisconnect();
+                if (screw != null)
+                    attachedDriller.ScrewDisconnect();
             }
             connectedObject = null;
         }

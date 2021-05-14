@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace CommanTickManager
 {
-
+    /// <summary>
+    /// This script manages central Update function for use everywhere 
+    /// </summary>
     public class ProcessingUpdate : MonoBehaviour
     {
         private List<ITick> ticks = new List<ITick>(25);

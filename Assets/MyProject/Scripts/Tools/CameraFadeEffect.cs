@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// This script is used for fading camera effect 
+/// </summary>
 public class CameraFadeEffect : MonoBehaviour
 {
-    public static CameraFadeEffect instance; 
+    public static CameraFadeEffect instance;
     [Tooltip("Fade duration")]
     public float fadeTime = 2.0f;
     public float zDistance = 1;
@@ -36,7 +39,8 @@ public class CameraFadeEffect : MonoBehaviour
             SetFadeLevel(0);
         }
     }
-    private void Awake() {
+    private void Awake()
+    {
         instance = this;
     }
     void Start()
@@ -101,6 +105,9 @@ public class CameraFadeEffect : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Fade in and out and call the action when complete black 
+    /// </summary>
     public void FadeInOut(System.Action callback)
     {
         FadeOut();
