@@ -75,26 +75,9 @@ namespace TrasnferVR.Demo.UI {
                 SetInstruction(InstuctionType.SETUP_EQUIPMENTS);
 
             }
-
-
         }
 
-        private void Update() {
 
-
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                Events.HoseAttached();
-            }
-
-            if (Input.GetKeyDown(KeyCode.R)) {
-                Events.ResetEnvironment();
-            }
-
-            if (Input.GetKeyDown(KeyCode.T)) {
-                Events.TaskCompleted();
-            }
-
-        }
 
         private void OnTaskCompleted() {
             HideInstruction();
