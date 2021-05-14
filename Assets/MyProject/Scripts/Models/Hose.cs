@@ -5,6 +5,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 namespace TrasnferVR.Demo
 {
+    /// <summary>
+    /// This script contains all the functionality related to Hose
+    /// </summary>
     public class Hose : MonoBehaviour, IGrabbable
     {
         #region PUBLIC_VARS
@@ -63,6 +66,9 @@ namespace TrasnferVR.Demo
         #endregion
 
         #region PUBLIC_METHODS
+        /// <summary>
+        /// This will start or stop rotation of hose while drilling
+        /// </summary>
         public void AnimateHose(bool isRotating)
         {
             if (isHoseRotating == isRotating)
@@ -72,11 +78,17 @@ namespace TrasnferVR.Demo
             hoseAnimator.SetTrigger(triggerType);
 
         }
+        /// <summary>
+        /// This will toggle the collider hose uses for grab or screw drill detection
+        /// </summary>
         public void ToggleAttachedCollider(bool isHoseAttached)
         {
             drillingCollider.enabled = isHoseAttached;
             grabCollider.enabled = !isHoseAttached;
         }
+        /// <summary>
+        /// This will enable or distable grab interaction with Hose
+        /// </summary>
         public void ToggleGrabInteraction(bool interact)
         {
             if (interact)
@@ -88,6 +100,9 @@ namespace TrasnferVR.Demo
                 xRGrabInteractable.interactionLayerMask = 0;
             }
         }
+        /// <summary>
+        /// Showing highlight effect when near the controller
+        /// </summary>
         public void OnHoverEnter()
         {
             foreach (HighlightObjectData data in highlightObjectData)
@@ -95,6 +110,9 @@ namespace TrasnferVR.Demo
                 data.objectRenderer.material = data.highlightedMaterial;
             }
         }
+        /// <summary>
+        /// Hide highlight effect when near the controller
+        /// </summary>
         public void OnHoverExit()
         {
             foreach (HighlightObjectData data in highlightObjectData)
@@ -102,12 +120,18 @@ namespace TrasnferVR.Demo
                 data.objectRenderer.material = data.normalMaterial;
             }
         }
+        /// <summary>
+        /// This will manage data when grabbed 
+        /// </summary>
         [ContextMenu("Grab")]
         public void OnGrab(XRBaseInteractor interactor)
         {
             isAttachedAnywhere = false;
             // OnHoverExit();
         }
+        /// <summary>
+        /// This will manage data and positioning when released 
+        /// </summary>
         [ContextMenu("Release")]
         public void OnReleased(XRBaseInteractor interactor)
         {
@@ -133,6 +157,9 @@ namespace TrasnferVR.Demo
                 isAttachedAnywhere = false;
             }
         }
+        /// <summary>
+        /// This will reset the data and positioning 
+        /// </summary>
         void OnResetEnvrironment()
         {
             transform.parent = initialParent;

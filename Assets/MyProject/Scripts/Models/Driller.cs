@@ -6,6 +6,9 @@ using CommanTickManager;
 
 namespace TrasnferVR.Demo
 {
+    /// <summary>
+    /// This class will manage all the interaction for Driller Object
+    /// </summary>
     public class Driller : MonoBehaviour, IGrabbable, ITick
     {
         #region PUBLIC_VARS
@@ -52,6 +55,9 @@ namespace TrasnferVR.Demo
         #endregion
 
         #region PUBLIC_METHODS
+        /// <summary>
+        /// This is called in update function if adding using Processing Update. This manages the drilling mechanism and animations
+        /// </summary>
         public void Tick()
         {
             if (currentHoldedController != null && currentHoldedController.inputDevice.isValid)
@@ -60,8 +66,8 @@ namespace TrasnferVR.Demo
                 if (isDrilling != value)
                 {
                     hose.AnimateHose(value);
-                    if(value)
-                        PlayAudio(AudioType.DRILL,true);
+                    if (value)
+                        PlayAudio(AudioType.DRILL, true);
                     else
                         StopAudio();
                 }
@@ -73,14 +79,9 @@ namespace TrasnferVR.Demo
                 screw.PushScrew(rotationSpeed, pushForce);
             }
         }
-        // public void OnHoverEnter(XRBaseInteractor interactor)
-        // {
-        //     Debug.Log("Enter hover " + interactor.gameObject.name);
-        // }
-        // public void OnHoverExit(XRBaseInteractor interactor)
-        // {
-        //     Debug.Log("Exit hover " + interactor.gameObject.name);
-        // }
+        /// <summary>
+        /// Showing highlight effect when near the controller
+        /// </summary>
         public void OnHoverEnter()
         {
             foreach (HighlightObjectData data in highlightObjectData)
@@ -88,6 +89,9 @@ namespace TrasnferVR.Demo
                 data.objectRenderer.material = data.highlightedMaterial;
             }
         }
+        /// <summary>
+        /// Hide highlight effect when near the controller
+        /// </summary>
         public void OnHoverExit()
         {
             foreach (HighlightObjectData data in highlightObjectData)
@@ -95,6 +99,9 @@ namespace TrasnferVR.Demo
                 data.objectRenderer.material = data.normalMaterial;
             }
         }
+        /// <summary>
+        /// Manages data when driller grabbed
+        /// </summary>
         public void OnGrab(XRBaseInteractor interactor)
         {
             Debug.Log("OnGrab  " + interactor.gameObject.name);
@@ -108,6 +115,9 @@ namespace TrasnferVR.Demo
                 ProcessingUpdate.Instance.Add(this);
             }
         }
+        /// <summary>
+        /// Manages data and positioning when driller released 
+        /// </summary>
         public void OnReleased(XRBaseInteractor interactor)
         {
             Debug.Log("OnRelease  " + interactor.gameObject.name);
@@ -118,6 +128,9 @@ namespace TrasnferVR.Demo
             ProcessingUpdate.Instance.Remove(this);
             currentHoldedController = null;
         }
+        /// <summary>
+        /// This will attach hose to the driller
+        /// </summary>
         public void AttachHose(Hose hose)
         {
             this.hose = hose;
@@ -135,20 +148,31 @@ namespace TrasnferVR.Demo
                 ProcessingUpdate.Instance.Add(this);
             }
 
-            PlayAudio(AudioType.METALATTACH,false);
+            PlayAudio(AudioType.METALATTACH, false);
             Events.HoseAttached();
         }
+        /// <summary>
+        /// This will let driller know that screw is connected and can drill 
+        /// </summary>
         public void ScrewConnected(Screw screw)
         {
             this.screw = screw;
+            screw.PlayParticle(true);
         }
+        /// <summary>
+        /// This will stop pushing the screw inside as it disconnects
+        /// </summary>
         public void ScrewDisconnect()
         {
+            screw.PlayParticle(false);
             screw = null;
         }
         #endregion
 
         #region PRIVATE_METHODS
+        /// <summary>
+        /// Manages sounds played by driller
+        /// </summary>
         void PlayAudio(AudioType type, bool isLooping)
         {
             AudioClip clip = SoundManager.instance.GetAudioClip(type);
@@ -160,6 +184,9 @@ namespace TrasnferVR.Demo
         {
             audioSource.Stop();
         }
+        /// <summary>
+        /// This will reset the driller data and position
+        /// </summary>
         void OnResetEnvrironment()
         {
             if (hose != null)
@@ -181,6 +208,9 @@ namespace TrasnferVR.Demo
 
             currentHoldedController = null;
         }
+        /// <summary>
+        /// This will reset position and remove grabbing after task completion
+        /// </summary>
         void OnTaskCompleted()
         {
             if (hose != null)
