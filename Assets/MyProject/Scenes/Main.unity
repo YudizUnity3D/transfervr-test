@@ -10150,6 +10150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed194f7b4a7838d45a23612a58a3189e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentScreen: 0
+  _previousScreen: 0
   _allScreens:
   - _screen: {fileID: 914814522}
     _type: 0
@@ -10161,8 +10163,6 @@ MonoBehaviour:
     _type: 3
   - _screen: {fileID: 1034567456}
     _type: 4
-  _currentScreen: 0
-  _previousScreen: 0
 --- !u!114 &1340748654
 MonoBehaviour:
   m_ObjectHideFlags: 0

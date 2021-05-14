@@ -5,9 +5,13 @@ using static TrasnferVR.Demo.Data;
 
 namespace TrasnferVR.Demo.UI
 {
+
+    /// <summary>
+    /// This class contains all the behaviors for the Pause Screen 
+    /// </summary>
     public class PauseUI : ScreenView
     {
-
+        #region UI_BASE_OVERRIDES
         public override void OnScreenShowCalled()
         {
             AmbienceController.instance.PauseAmbience();
@@ -20,6 +24,19 @@ namespace TrasnferVR.Demo.UI
             AmbienceController.instance.ResumeAmbience();
 
         }
+
+        public override void OnBackKeyPressed() {
+            base.OnBackKeyPressed();
+            UIController.instance.HideThisScreen(ScreenType.PAUSE, EnableDirection.Forward);
+            UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
+            Events.ChangeSimulationState(SimulationState.SIMULATION);
+            SoundManager.instance.PlayBack();
+
+        }
+        #endregion
+
+
+        #region UI_METHODS
 
         public void onRestartPressed()
         {
@@ -58,16 +75,8 @@ namespace TrasnferVR.Demo.UI
             SoundManager.instance.PlayTap();
 
         }
+        #endregion
 
-        public override void OnBackKeyPressed()
-        {
-            base.OnBackKeyPressed();
-            UIController.instance.HideThisScreen(ScreenType.PAUSE, EnableDirection.Forward);
-            UIController.instance.ShowThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
-            Events.ChangeSimulationState(SimulationState.SIMULATION);
-            SoundManager.instance.PlayBack();
-
-        }
 
     }
 }

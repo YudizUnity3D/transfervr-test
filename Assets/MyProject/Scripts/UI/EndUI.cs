@@ -5,9 +5,12 @@ using static TrasnferVR.Demo.Data;
 
 namespace TrasnferVR.Demo.UI
 {
+    /// <summary>
+    /// This class contains all the behaviors for the End Screen 
+    /// </summary>
     public class EndUI : ScreenView
     {
-
+        #region UI_BASE_OVERRIDES
         public override void OnScreenShowCalled()
         {
             SoundManager.instance.PlayAudio(AudioType.WIN);
@@ -19,6 +22,10 @@ namespace TrasnferVR.Demo.UI
         {
             base.OnScreenHideCalled();
         }
+        #endregion
+
+
+        #region UI_METHODS
 
         public void onRestartPressed()
         {
@@ -45,5 +52,6 @@ namespace TrasnferVR.Demo.UI
             SoundManager.instance.PlayTap();
 
         }
+        #endregion
     }
 }

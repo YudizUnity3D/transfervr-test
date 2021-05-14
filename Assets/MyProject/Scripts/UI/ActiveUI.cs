@@ -7,6 +7,10 @@ using UnityEngine.UI;
 using static TrasnferVR.Demo.Data;
 
 namespace TrasnferVR.Demo.UI {
+
+    /// <summary>
+    /// This class contains all the behaviors for the Active Simulation Screen 
+    /// </summary>
     public class ActiveUI : ScreenView {
 
         public CanvasGroup Instruction_CG;
@@ -24,6 +28,7 @@ namespace TrasnferVR.Demo.UI {
         public bool isHoseAttached;
 
 
+        #region UI_BASE_OVERRIDES
         public override void OnScreenShowCalled() {
             base.OnScreenShowCalled();
 
@@ -46,6 +51,18 @@ namespace TrasnferVR.Demo.UI {
 
         }
 
+        public override void OnBackKeyPressed() {
+            base.OnBackKeyPressed();
+            UIController.instance.HideThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
+            UIController.instance.ShowThisScreen(ScreenType.PAUSE, EnableDirection.Forward);
+            SoundManager.instance.PlayBack();
+            Events.ChangeSimulationState(SimulationState.UI);
+        }
+
+        #endregion
+
+
+        #region INSTRUCTION_METHODS
         public void ResetInstructions(bool hasToHide = false) {
 
             Instruction_CG.alpha = 0;
@@ -79,9 +96,6 @@ namespace TrasnferVR.Demo.UI {
 
 
 
-        private void OnTaskCompleted() {
-            HideInstruction();
-        }
 
         public void ShowInstruction(Action Callback = null) {
 
@@ -137,6 +151,15 @@ namespace TrasnferVR.Demo.UI {
 
         }
 
+#endregion
+
+
+        #region EVENTCALLBACKS
+
+        private void OnTaskCompleted() {
+            HideInstruction();
+        }
+
         private void OnResetEnvironment() {
             isResetClicked = true;
             isHoseAttached = false;
@@ -148,23 +171,10 @@ namespace TrasnferVR.Demo.UI {
             SetInstruction(InstuctionType.DRILLING);
 
         }
+ 
 
+        #endregion
 
-        public override void OnBackKeyPressed() {
-            base.OnBackKeyPressed();
-            UIController.instance.HideThisScreen(ScreenType.ACTIVE, EnableDirection.Forward);
-            UIController.instance.ShowThisScreen(ScreenType.PAUSE, EnableDirection.Forward);
-            SoundManager.instance.PlayBack();
-            Events.ChangeSimulationState(SimulationState.UI);
-        }
-
-
-        public enum InstuctionType {
-
-            NONE,
-            SETUP_EQUIPMENTS,
-            DRILLING
-
-        }
+      
     }
 }

@@ -5,6 +5,10 @@ using UnityEngine;
 using static TrasnferVR.Demo.Data;
 
 namespace TrasnferVR.Demo {
+
+    /// <summary>
+    /// This class contains all the global events
+    /// </summary>
     public class Events : MonoBehaviour {
 
         public static event Action<SimulationState> OnSimulationStateChanged = delegate { };
